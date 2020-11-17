@@ -2,8 +2,8 @@ POST http://localhost:3000/api/blogs
 Content-Type: application/json
 
 {
-  "title": "Best Dressed",
-  "author": "Ashley",
-  "url": "www.bestdressed.com",
-  "likes": 114
+  "title": "Gordon's Grub",
+  "author": "Gordon Ramsay",
+  "url": "www.Gordonsgrub.com",
+  "likes": 11
 }
