@@ -65,9 +65,42 @@ const mostBlogs = (blogs) => {
 
 }
 
+const mostLikes = (blogs) => {
+
+    let authorLikes = [];
+
+    const addLikes = (blog) => {
+        authorLikes.find(authorLike=> authorLike.author === blog.author).likes += blog.likes
+    }
+
+    blogs.map(blog => {
+        if (authorLikes.some(author => author.author === blog.author)) {
+            addLikes(blog)
+        } else {
+            authorLikes.push({ author: blog.author, likes: blog.likes})
+        }
+    })
+
+    console.log('authors and their likes:', authorLikes);
+
+    let authorWithMostLikes;
+    authorLikes.map(author => {
+        if (!authorWithMostLikes) {
+            authorWithMostLikes= author;
+        }
+        else if (author.likes > authorWithMostLikes.likes) {
+            authorWithMostLikes = author;
+        }
+    })
+
+    console.log(authorWithMostLikes);
+    return authorWithMostLikes;
+}
+
 module.exports = {
     dummy,
     totalLikes,
     favouriteBlog,
-    mostBlogs
+    mostBlogs,
+    mostLikes
 }
