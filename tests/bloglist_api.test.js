@@ -71,30 +71,26 @@ beforeEach(async () => {
     expect(blogTitles).toContain('New Test Blog')
   })
 
+  test ('missing likes is 0', async() => {
+    const newBlog = {
+        title: 'New Test Blog 1',
+        author: 'Tester',
+        url: 'NewTestBlog.com',
+      }
+
+      await api
+      .post('/api/blogs')
+      .send(newBlog)
+      .expect(201)
+      .expect('Content-Type', /application\/json/)
+      
+      const response = await api.get('/api/blogs')
+      const blogLikes = response.body.map(r => r.likes)
+      expect(blogLikes[2]).toEqual(0)
 
 
-/*test('a valid blog can be added', async () => {
-   const newBlog = {
-       title: 'Api Test blog',
-       author: 'Julia',
-       url: 'test.com',
-       likes: 1
-   }
+  })
 
-   await api
-    .post('/api/blogs')
-    .send(newBlog)
-    .expect(201)
-    .expect('Content-Type', /application\/json/)
-
-    const response = await api.get('/api/blogs')
-    const contents = response.body.map(r=> r.content)
-    console.log('test array contents:', contents)
-    expect (response.body).toHaveLength(initialBlogs.length + 1)
-    expect(contents).toContain(
-        'Api Test blog'
-    )
-})*/
 
 afterAll(() => {
     mongoose.connection.close()
