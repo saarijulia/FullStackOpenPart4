@@ -1,9 +1,10 @@
-POST http://localhost:3000/api/blogs
+POST http://localhost:3003/api/blogs
 Content-Type: application/json
 
 {
   "title": "Gordon's Grub",
   "author": "Gordon Ramsay",
   "url": "www.Gordonsgrub.com",
-  "likes": 11
+  "likes": 11,
+  "id": 1
 }
