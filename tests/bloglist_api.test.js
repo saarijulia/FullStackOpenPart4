@@ -91,6 +91,17 @@ beforeEach(async () => {
 
   })
 
+  test('missing data', async() => {
+    const newBlog = {
+        url: 'NewTestBlog.com',
+      }
+
+      await api
+      .post('/api/blogs')
+      .send(newBlog)
+      .expect(400)
+  })
+
 
 afterAll(() => {
     mongoose.connection.close()

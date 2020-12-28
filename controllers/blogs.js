@@ -15,6 +15,10 @@ blogsRouter.post('/', (request, response) => {
         blog.likes = 0;
     }
 
+    if (!blog.title || !blog.author){
+        response.status(400).send({error: 'missing content'})
+    }
+    
     blog
         .save()
         .then(result => {
