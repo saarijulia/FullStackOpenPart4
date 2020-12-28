@@ -40,17 +40,37 @@ blogsRouter.get('/:id', (request, response, next) => {
 })
 
 blogsRouter.delete('/:id', (request, response, next) => {
-    Blog.findByIdAndRemove(request.params.id)
-        .then(blog => {
-            if (blog) {
-                console.log('deleted', blog)
+    const main = async () => {
+        const blog = await Blog.findByIdAndRemove(request.params.id)
+            .then(blog => {
+                if (blog) {
+                    console.log('deleted:', blog)
+                } else {
+                    response.status(204).end()
+                }
+            })
 
-            } else {
-                response.status(204).end()
-            }
-        })
-        .catch(error => next(error))
+    }
+   main()
 })
+
+blogsRouter.put('/:id', (request, response, next) => {
+    const body = request.body
+  
+    const blog = {
+      author: body.author,
+      title: body.title,
+      likes: body.likes
+    }
+  const main = async () => {
+      await Blog.findByIdAndUpdate(request.params.id, blog, { new: true })
+      .then(updatedBlog => {
+        response.json(updatedBlog.toJSON())
+      })
+      .catch(error => next(error))
+  }
+    main()
+  })
 
 
 module.exports = blogsRouter

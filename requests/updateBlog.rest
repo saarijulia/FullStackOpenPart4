@@ -1,0 +1,10 @@
+PUT http://localhost:3003/api/blogs/5fe9bce5327a18987d7b92ee
+Content-Type: application/json
+
+{
+"title": "Gordon's Grub",
+"author": "Gordon Ramsay",
+"url": "www.Gordonsgrub.com",
+"likes": 99,
+"id": "5fe9ab70680ef5334d2316db"
+}
