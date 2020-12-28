@@ -11,7 +11,7 @@ blogsRouter.get('/', (request, response) => {
 
 blogsRouter.post('/', (request, response) => {
     const blog = new Blog(request.body)
-    if (!blog.hasOwnProperty('likes')) {
+    if (!blog.likes) {
         blog.likes = 0;
     }
 
@@ -42,15 +42,12 @@ blogsRouter.get('/:id', (request, response, next) => {
 blogsRouter.delete('/:id', (request, response, next) => {
     const main = async () => {
         const blog = await Blog.findByIdAndRemove(request.params.id)
-            .then(blog => {
-                if (blog) {
-                    console.log('deleted:', blog)
-                } else {
+            if (blog) {
+                console.log('deleted:', blog)
+            } else {
                     response.status(204).end()
-                }
-            })
-
-    }
+            }
+        }
    main()
 })
 
@@ -63,11 +60,8 @@ blogsRouter.put('/:id', (request, response, next) => {
       likes: body.likes
     }
   const main = async () => {
-      await Blog.findByIdAndUpdate(request.params.id, blog, { new: true })
-      .then(updatedBlog => {
+      const updatedBlog = await Blog.findByIdAndUpdate(request.params.id, blog, { new: true })
         response.json(updatedBlog.toJSON())
-      })
-      .catch(error => next(error))
   }
     main()
   })
