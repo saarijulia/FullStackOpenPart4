@@ -50,6 +50,27 @@ beforeEach(async () => {
 
   })
 
+  test('adding a blog', async() => {
+      const newBlog = {
+        title: 'New Test Blog',
+        author: 'Tester',
+        url: 'NewTestBlog.com',
+        likes: 0
+      }
+
+    await api
+      .post('/api/blogs')
+      .send(newBlog)
+      .expect(201)
+      .expect('Content-Type', /application\/json/)
+
+    const response = await api.get('/api/blogs')
+    expect(response.body.length).toEqual(initialBlogs.length + 1)
+    const blogTitles = response.body.map(r => r.title)
+
+    expect(blogTitles).toContain('New Test Blog')
+  })
+
 
 
 /*test('a valid blog can be added', async () => {
