@@ -41,6 +41,17 @@ beforeEach(async () => {
     
   })
 
+  test('id is defined', async() => {
+
+    const response = await api.get('/api/blogs')
+    const content = response.body;
+    console.log(content)
+    expect(content[0].id).toBeDefined()
+
+  })
+
+
+
 /*test('a valid blog can be added', async () => {
    const newBlog = {
        title: 'Api Test blog',
