@@ -17,13 +17,15 @@ blogsRouter.post('/', (request, response) => {
 
     if (!blog.title || !blog.author){
         response.status(400).send({error: 'missing content'})
-    }
-
-    blog
+    } else {
+        blog
         .save()
         .then(result => {
             response.status(201).json(result)
         })
+    }
+
+   
 })
 
 blogsRouter.get('/:id', (request, response, next) => {
