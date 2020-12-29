@@ -1,33 +1,21 @@
 const mongoose = require('mongoose')
 const supertest = require('supertest')
+const helper = require('./test_helper')
 const app = require('../app')
 const blogsRouter = require('../controllers/blogs')
 
 const api = supertest(app)
 const Blog = require('../models/blog')
-const initialBlogs = [
-    {
-        title: 'Outfits 101',
-        author: 'Brandon D',
-        url: 'outfits1O1.com',
-        likes: 500
-    },
 
-    {
-        title: 'The art of baking',
-        author: 'Lily Collins',
-        url: 'theartofbaking.com',
-        likes: 67
-    }
-]
 
 beforeEach(async () => {
-    await Blog.deleteMany({})
-    let blogObject = new Blog(initialBlogs[0])
-    await blogObject.save()
-    blogObject = new Blog(initialBlogs[1])
-    await blogObject.save()
-    console.log('initial blogs:', initialBlogs)
+   await Blog.deleteMany({})
+
+   let blogObject = new Blog(helper.initialBlogs[0])
+   await blogObject.save()
+
+   blogObject = new Blog (helper.initialBlogs[1])
+   await blogObject.save()
   })
 
   test('blogs can be retrieved', async () => {
@@ -37,7 +25,7 @@ beforeEach(async () => {
 
     const response = await api.get('/api/blogs')
     console.log('contents', response.body)
-    expect(response.body.length).toEqual(initialBlogs.length)
+    expect(response.body).toHaveLength(helper.initialBlogs.length)
     
   })
 
@@ -63,10 +51,12 @@ beforeEach(async () => {
       .send(newBlog)
       .expect(201)
       .expect('Content-Type', /application\/json/)
+    
+    const blogsAtEnd = await helper.blogsInDB()
+    expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length + 1)
 
-    const response = await api.get('/api/blogs')
-    expect(response.body.length).toEqual(initialBlogs.length + 1)
-    const blogTitles = response.body.map(r => r.title)
+  
+    const blogTitles = blogsAtEnd.map(b => b.title)
 
     expect(blogTitles).toContain('New Test Blog')
   })
