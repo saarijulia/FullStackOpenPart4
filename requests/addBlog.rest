@@ -2,9 +2,9 @@ POST http://localhost:3003/api/blogs
 Content-Type: application/json
 
 {
-  "title": "Gordon's Grub",
-  "author": "Gordon Ramsay",
-  "url": "www.Gordonsgrub.com",
+  "title": "Test Blog 3",
+  "author": "Writer",
+  "url": "www.blogurl.com",
   "likes": 11,
-  "id": 1
+  "userId": "5feb2fd75c05f8784d0b2d8b"
 }
